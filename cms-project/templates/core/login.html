@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Complaint Management System{% endblock %}
+
+{% block unauthenticated_content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <h2><i class="bi bi-headset text-primary"></i></h2>
+                    <h4>Complaint Management System</h4>
+                    <p class="text-muted">Sign in to your account</p>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Invalid username or password. Please try again.
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username</label>
+                        <input type="text" name="username" id="id_username" 
+                               class="form-control" required autofocus>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Password</label>
+                        <input type="password" name="password" id="id_password" 
+                               class="form-control" required>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-box-arrow-in-right"></i> Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="text-center mt-3">
+            <small class="text-muted">
+                Multi-Tenant Complaint Management System PoC
+            </small>
+        </div>
+        
+        <!-- Demo Credentials -->
+        <div class="card mt-4 border-info">
+            <div class="card-header bg-info bg-opacity-10 text-info">
+                <i class="bi bi-info-circle"></i> Demo Credentials
+            </div>
+            <div class="card-body">
+                <p class="card-text small text-muted mb-3">
+                    The following accounts are available for demonstration purposes:
+                </p>
+                <table class="table table-sm table-borderless mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-muted">Role</th>
+                            <th class="text-muted">Username</th>
+                            <th class="text-muted">Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-danger">System Admin</span></td>
+                            <td><code>admin</code></td>
+                            <td><code>admin123</code></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">Manager</span></td>
+                            <td><code>manager1</code></td>
+                            <td><code>manager123</code></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-info">Help Desk Agent</span></td>
+                            <td><code>helpdesk1</code></td>
+                            <td><code>helpdesk123</code></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning text-dark">Support Staff</span></td>
+                            <td><code>support1</code></td>
+                            <td><code>support123</code></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-secondary">Consumer</span></td>
+                            <td><code>consumer1</code></td>
+                            <td><code>consumer123</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <p class="card-text small text-muted mb-0">
+                    <strong>Note:</strong> All demo accounts belong to "Acme Corporation" tenant.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

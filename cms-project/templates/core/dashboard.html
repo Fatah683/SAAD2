@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - CMS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>Dashboard</h2>
+        <p class="text-muted mb-0">Welcome back, {{ user.first_name|default:user.username }}!</p>
+    </div>
+    <a href="{% url 'complaint_create' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> New Complaint
+    </a>
+</div>
+
+<div class="row mb-4">
+    {% if profile.is_consumer %}
+    <div class="col-md-4">
+        <div class="card stat-card bg-primary text-white">
+            <div class="card-body">
+                <h3 class="mb-0">{{ total_complaints }}</h3>
+                <small>Total Complaints</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card bg-warning">
+            <div class="card-body">
+                <h3 class="mb-0">{{ open_complaints }}</h3>
+                <small>Open</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card bg-info text-white">
+            <div class="card-body">
+                <h3 class="mb-0">{{ resolved_complaints }}</h3>
+                <small>Awaiting Confirmation</small>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-md-2">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <h3 class="mb-0 text-primary">{{ total_complaints }}</h3>
+                <small class="text-muted">Total</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <h3 class="mb-0 text-danger">{{ open_complaints }}</h3>
+                <small class="text-muted">Open</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <h3 class="mb-0 text-warning">{{ in_progress }}</h3>
+                <small class="text-muted">In Progress</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <h3 class="mb-0 text-info">{{ resolved_complaints }}</h3>
+                <small class="text-muted">Resolved</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <h3 class="mb-0 text-success">{{ closed_complaints }}</h3>
+                <small class="text-muted">Closed</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <h3 class="mb-0 text-secondary">{{ unassigned }}</h3>
+                <small class="text-muted">Unassigned</small>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% if profile.is_consumer %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">My Recent Complaints</h5>
+        <a href="{% url 'complaint_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+    </div>
+    <div class="card-body">
+        {% if my_complaints %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in my_complaints %}
+                    <tr onclick="location.href='{% url 'complaint_detail' complaint.pk %}'" style="cursor: pointer;">
+                        <td><code>{{ complaint.reference_number }}</code></td>
+                        <td>{{ complaint.title|truncatewords:8 }}</td>
+                        <td>
+                            <span class="badge status-{{ complaint.status }}">
+                                {{ complaint.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ complaint.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted text-center py-4">
+            You haven't submitted any complaints yet.
+            <a href="{% url 'complaint_create' %}">Submit your first complaint</a>.
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+
+{% if profile.is_support and my_assigned %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-person-check"></i> Assigned to Me</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Title</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in my_assigned %}
+                    <tr onclick="location.href='{% url 'complaint_detail' complaint.pk %}'" style="cursor: pointer;">
+                        <td><code>{{ complaint.reference_number }}</code></td>
+                        <td>{{ complaint.title|truncatewords:6 }}</td>
+                        <td><span class="priority-{{ complaint.priority }}">{{ complaint.get_priority_display }}</span></td>
+                        <td>
+                            <span class="badge status-{{ complaint.status }}">
+                                {{ complaint.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Recent Complaints</h5>
+        <a href="{% url 'complaint_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+    </div>
+    <div class="card-body">
+        {% if recent_complaints %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Title</th>
+                        <th>Submitted By</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Assigned To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in recent_complaints %}
+                    <tr onclick="location.href='{% url 'complaint_detail' complaint.pk %}'" style="cursor: pointer;">
+                        <td><code>{{ complaint.reference_number }}</code></td>
+                        <td>{{ complaint.title|truncatewords:5 }}</td>
+                        <td>{{ complaint.submitted_by.username|default:"-" }}</td>
+                        <td><span class="priority-{{ complaint.priority }}">{{ complaint.get_priority_display }}</span></td>
+                        <td>
+                            <span class="badge status-{{ complaint.status }}">
+                                {{ complaint.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ complaint.assigned_to.username|default:"Unassigned" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted text-center py-4">No complaints found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

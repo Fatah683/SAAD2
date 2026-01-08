@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - CMS{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'complaint_list' %}">Complaints</a></li>
+            <li class="breadcrumb-item active">New Complaint</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ title }}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if form.submitted_by %}
+                    <div class="mb-3">
+                        <label for="id_submitted_by" class="form-label">
+                            {{ form.submitted_by.label }}
+                        </label>
+                        {{ form.submitted_by }}
+                        {% if form.submitted_by.help_text %}
+                        <div class="form-text">{{ form.submitted_by.help_text }}</div>
+                        {% endif %}
+                        {% if form.submitted_by.errors %}
+                        <div class="text-danger">{{ form.submitted_by.errors }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title <span class="text-danger">*</span></label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="text-danger">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description <span class="text-danger">*</span></label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_category" class="form-label">Category</label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                <div class="text-danger">{{ form.category.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_priority" class="form-label">Priority</label>
+                                {{ form.priority }}
+                                {% if form.priority.errors %}
+                                <div class="text-danger">{{ form.priority.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'complaint_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Submit Complaint
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
