@@ -1,0 +1,14 @@
+ADR-01 — Adopt Django as the Primary Web Framework
+Status: Accepted
+Context
+The CMS requires secure authentication, structured complaint workflows, built-in admin tools, and rapid development.
+Decision
+Use Django as the main web framework, supplemented by Django REST Framework (DRF) for API endpoints.
+Rationale
+•	Batteries-included framework (ORM, auth, routing, templates, forms).
+•	Strong security defaults (CSRF, XSS, SQL injection protection).
+•	Excellent for structured, relational systems such as complaint records.
+•	Minimal boilerplate compared to Flask.
+Consequences
+Positive: Rapid prototyping, clean structure, secure-by-default.
+Negative: More opinionated than micro-frameworks.
