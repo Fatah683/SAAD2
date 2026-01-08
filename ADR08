@@ -1,0 +1,17 @@
+ADR-08 — Use Audit Logging as a Cross-Cutting Concern
+Status: Accepted
+Context
+The CMS requires complete traceability of complaint lifecycle events.
+Decision
+Create an AuditLog model + AuditLogService to record:
+•	complaint creation
+•	assignment
+•	updates
+•	status changes
+•	authentication events (optional)
+Rationale
+•	Supports transparency, accountability, and governance.
+•	Required for operational monitoring.
+Consequences
+Positive: Strong traceability.
+Negative: Requires careful logging granularity.
