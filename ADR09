@@ -1,0 +1,13 @@
+ADR-09 — Integrate Email Notifications Using Django’s Email Backend
+Status: Accepted
+Context
+Users must receive updates when complaints are submitted or updated.
+Decision
+Use Django’s Email Backend (console backend for POC; SMTP for production).
+Rationale
+•	Integrated into Django.
+•	Easy to mock for testing.
+•	Supports asynchronous enhancements later.
+Consequences
+Positive: Simple communication integration.
+Negative: True asynchronous behaviour may require Celery in a future phase.
