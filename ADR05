@@ -1,0 +1,13 @@
+ADR-05 — Expose a RESTful API for Core Complaint Operations
+Status: Accepted
+Context
+The CMS may be extended with mobile apps, chatbots, or partner integrations.
+Decision
+Use Django REST Framework to expose RESTful JSON API endpoints.
+Rationale
+•	Industry standard for distributed systems.
+•	DRF provides authentication classes, permission classes, serialisers, throttling.
+•	Supports stateless communication and scaling.
+Consequences
+Positive: High interoperability and consistent API design.
+Negative: Requires versioning strategy for future evolution.
