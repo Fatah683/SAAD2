@@ -1,0 +1,13 @@
+ADR-02 — Use PostgreSQL as the Relational Database
+Status: Accepted
+Context
+Complaints, users, audit logs, and tenants require relational integrity, foreign keys, indexing, and ACID consistency.
+Decision
+Use PostgreSQL as the primary data store.
+Rationale
+•	Excellent support for relational data and complex queries.
+•	Strong compatibility with Django ORM.
+•	Reliable for multi-tenant filtering and reporting workloads.
+Consequences
+Positive: Highly reliable, scalable, supports indexing, transactions.
+Negative: Requires more setup than SQLite.
