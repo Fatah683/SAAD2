@@ -1,0 +1,13 @@
+ADR-06 — Use Django Templates for Server-Side Rendering + Progressive Enhancement
+Status: Accepted
+Context
+The assignment emphasises accessibility and clear architectural reasoning rather than SPA complexity.
+Decision
+Render the UI using Django templates with lightweight JavaScript enhancements.
+Rationale
+•	Superior baseline accessibility (WCAG compliance).
+•	Simpler tooling and deployment than React.
+•	Better alignment with Django’s MVT pattern.
+Consequences
+Positive: Faster rendering for users, full accessibility, simpler tech stack.
+Negative: Less dynamic than SPA frameworks.
