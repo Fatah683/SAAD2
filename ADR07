@@ -1,0 +1,16 @@
+ADR-07 — Implement Security Using Django Middleware + RBAC
+Status: Accepted
+Context
+The CMS manages personal information and must meet organisational governance standards.
+Decision
+Use:
+•	Django’s built-in Auth system
+•	Role-based access control (RBAC)
+•	Security middleware (CSRF, XSS, clickjacking, secure cookies)
+Rationale
+•	Django’s auth framework is battle-tested.
+•	Middleware provides layered protection.
+•	Roles map directly to CMS responsibilities (consumer, agent, support staff, manager, admin).
+Consequences
+Positive: Strong baseline security.
+Negative: Custom granular permissions may require additional code.
