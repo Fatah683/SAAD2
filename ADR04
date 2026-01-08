@@ -1,0 +1,16 @@
+ADR-04 — Apply a Layered Architecture (Views → Services → Repository/ORM)
+Status: Accepted
+Context
+Complaint workflows, permission logic, and tenant isolation must be consistent across all interfaces.
+Decision
+Use a layered backend structure:
+•	Views / API Views → process HTTP requests
+•	Service Layer → business logic (ComplaintService, UserService, TenantService)
+•	Repository Layer → Django ORM models
+Rationale
+•	Ensures reusability and maintainability.
+•	Keeps views/controllers thin.
+•	Supports unit testing of core business logic.
+Consequences
+Positive: Modular, clean, extensible architecture.
+Negative: Slight increase in boilerplate code.
