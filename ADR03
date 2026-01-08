@@ -1,0 +1,13 @@
+ADR-03 — Implement Multi-Tenancy Using a Shared Schema + tenant_id
+Status: Accepted
+Context
+The CMS must support multiple organisations (tenants) with strict data isolation.
+Decision
+Use one shared schema and include a tenant_id field in all tenant-scoped tables (complaints, users, audit_logs).
+Rationale
+•	Easiest approach with Django ORM.
+•	Avoids maintaining multiple schemas/databases.
+•	Improves performance through shared connection pooling.
+Consequences
+Positive: Simple, scalable, minimal operational overhead.
+Negative: Requires rigorous tenant_id filtering in all queries.
